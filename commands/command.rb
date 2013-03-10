@@ -5,13 +5,14 @@ module Commands
     global.order!
     name = ARGV.shift
     subcommand = Commands::Base.commands.select { |x| x.command_name == name }.first
-    subcommand ? subcommand.option_parser : global
+    subcommand ? subcommand.new.option_parser : global
   end
 
-  module Base
+  class Base
     class << self
       attr_accessor :commands
-      def included(command)
+
+      def inherited(command)
         @commands ||= []
         @commands << command
       end
