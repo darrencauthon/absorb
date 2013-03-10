@@ -12,17 +12,36 @@ opt_parser = OptionParser.new do |opt|
   opt.separator ''
   opt.separator 'Options'
 
-  opt.on('-m','--message','runing on daemon mode?') do
-    options[:daemon] = true
-  end
-
   opt.on('-h','--help','help') do
     puts opt_parser
   end
 end
 
-opt_parser.parse!
+subcommands = { 
+  'file' => OptionParser.new do |opt|
+    opt.banner = 'Usage: absorb file [filename]'
+    opt.separator ''
+    opt.separator 'Options'
 
-puts opt_parser
+    opt.on('-m','--message','runing on daemon mode?') do
+      options[:daemon] = true
+    end
+
+    opt.on('-h','--help','help') do
+      puts opt_parser
+    end
+  end
+}
+
+opt_parser.order!
+
+argument = ARGV.shift
+puts argument
+subcommand = subcommands[argument]
+if subcommand
+  subcommand.order!
+else
+  puts opt_parser
+end
 
 0
