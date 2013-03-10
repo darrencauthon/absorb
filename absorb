@@ -35,13 +35,13 @@ subcommands = {
 
 opt_parser.order!
 
-argument = ARGV.shift
-puts argument
-subcommand = subcommands[argument]
+subcommand = subcommands[ARGV.shift]
+
 if subcommand
   subcommand.order!
-else
-  puts opt_parser
+  opt_parser = subcommand
 end
+
+puts opt_parser
 
 0
