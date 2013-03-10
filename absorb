@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-puts 'k'
+puts ARGV.inspect
+
+0
