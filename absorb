@@ -1,47 +1,13 @@
 #!/usr/bin/env ruby
+require File.expand_path(File.dirname(__FILE__) + '/commands/command.rb')
 Dir[File.dirname(__FILE__) + '/commands/*.rb'].each {|file| require file }
 require 'optparse'
 
 options = {}
 
-opt_parser = OptionParser.new do |opt|
-  opt.banner = 'Usage: absorb COMMAND [OPTIONS]'
-  opt.separator ''
-  opt.separator 'Commands'
-  opt.separator '     file: Absorb a file.'
-  opt.separator ''
-  opt.separator 'Options'
 
-  opt.on('-h','--help','help') do
-    puts opt_parser
-  end
-end
+command = Commands.the_appropriate_command
 
-subcommands = { 
-  'file' => OptionParser.new do |opt|
-    opt.banner = 'Usage: absorb file [filename]'
-    opt.separator ''
-    opt.separator 'Options'
-
-    opt.on('-m','--message','runing on daemon mode?') do
-      options[:daemon] = true
-    end
-
-    opt.on('-h','--help','help') do
-      puts opt_parser
-    end
-  end
-}
-
-opt_parser.order!
-
-subcommand = subcommands[ARGV.shift]
-
-if subcommand
-  subcommand.order!
-  opt_parser = subcommand
-end
-
-puts opt_parser
+puts command
 
 0
