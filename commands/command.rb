@@ -1,7 +1,7 @@
 module Commands
 
   def self.the_appropriate_command
-    global = Commands::Base.opt_parser
+    global = Commands::Base.option_parser
     global.order!
     name = ARGV.shift
     subcommand = Commands::Base.commands.select { |x| x.command_name == name }.first
@@ -16,7 +16,7 @@ module Commands
         @commands << command
       end
 
-      def opt_parser
+      def option_parser
         OptionParser.new do |opt|
           opt.banner = 'Usage: absorb COMMAND [OPTIONS]'
           opt.separator ''
@@ -26,7 +26,7 @@ module Commands
           opt.separator 'Options'
 
           opt.on('-h','--help','help') do
-            puts opt_parser
+            puts option_parser
           end
         end
       end
