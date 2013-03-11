@@ -1,8 +1,6 @@
 module Commands
 
   def self.the_appropriate_command
-    puts arguments.inspect
-    puts options.inspect
     command_type.new arguments, options
   end
 
