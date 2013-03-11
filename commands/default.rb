@@ -1,5 +1,6 @@
 module Commands
   class Default < Base
+
     def execute
       puts self.class.option_parser
     end

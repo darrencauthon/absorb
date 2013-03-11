@@ -1,10 +1,8 @@
 module Commands
   class File < Commands::Base
 
-    class << self
-      def command_name
-        'file'
-      end
+    def self.command_name
+      'file'
     end
 
     def execute
