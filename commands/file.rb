@@ -8,12 +8,12 @@ module Commands
     end
 
     def execute
-      puts option_parser
+      puts self.class.option_parser
     end
 
-    def option_parser
+    def self.option_parser
       OptionParser.new do |opt|
-        opt.banner = "Usage: absorb #{self.class.command_name} [filename]"
+        opt.banner = "Usage: absorb #{command_name} [filename]"
         opt.separator ''
         opt.separator 'Options'
 

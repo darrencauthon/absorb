@@ -1,10 +1,10 @@
 module Commands
   class Default < Base
     def execute
-      puts option_parser
+      puts self.class.option_parser
     end
 
-    def option_parser
+    def self.option_parser
       OptionParser.new do |opt|
         opt.banner = 'Usage: absorb COMMAND [OPTIONS]'
         opt.separator ''

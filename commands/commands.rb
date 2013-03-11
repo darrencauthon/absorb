@@ -1,6 +1,6 @@
 module Commands
   def self.the_appropriate_command
-    global = Commands::Default.new.option_parser
+    global = Commands::Default.option_parser
     global.order!
     name = ARGV.shift
 
