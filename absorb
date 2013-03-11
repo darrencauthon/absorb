@@ -7,8 +7,6 @@ class OptionParser
   attr_accessor :options
 end
 
-command = Commands.the_appropriate_command
-
-command.execute
+Commands.the_appropriate_command.execute
 
 0
