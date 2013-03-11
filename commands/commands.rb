@@ -5,6 +5,7 @@ module Commands
     command_type = Commands::Base.commands.select { |x| x.command_name == name }.first || Default
     options = command_type.option_parser.options
     arguments = ARGV
+    arguments.shift unless command_type == Default
     puts arguments.inspect
     puts options.inspect
     command_type.new arguments, options
