@@ -5,6 +5,6 @@ require 'optparse'
 
 command = Commands.the_appropriate_command
 
-puts command
+command.execute
 
 0

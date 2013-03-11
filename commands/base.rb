@@ -5,7 +5,7 @@ module Commands
 
       def inherited(command)
         @commands ||= []
-        @commands << command
+        @commands << command if command != Commands::Default
       end
 
     end

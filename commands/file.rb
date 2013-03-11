@@ -7,6 +7,10 @@ module Commands
       end
     end
 
+    def execute
+      puts option_parser
+    end
+
     def option_parser
       OptionParser.new do |opt|
         opt.banner = "Usage: absorb #{self.class.command_name} [filename]"
