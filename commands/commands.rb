@@ -1,6 +1,6 @@
 module Commands
   def self.the_appropriate_command
-    global = Commands::Base.option_parser
+    global = Commands::Base.default_option_parser
     global.order!
     name = ARGV.shift
     subcommand = Commands::Base.commands.select { |x| x.command_name == name }.first

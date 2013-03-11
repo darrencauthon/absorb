@@ -8,7 +8,7 @@ module Commands
         @commands << command
       end
 
-      def option_parser
+      def default_option_parser
         OptionParser.new do |opt|
           opt.banner = 'Usage: absorb COMMAND [OPTIONS]'
           opt.separator ''
