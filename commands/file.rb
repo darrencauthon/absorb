@@ -10,19 +10,21 @@ module Commands
     end
 
     def self.option_parser
-      OptionParser.new do |opt|
-        opt.banner = "Usage: absorb #{command_name} [filename]"
-        opt.separator ''
-        opt.separator 'Options'
+      return @parser if @parser
+      the_options = {}
+      @parser = OptionParser.new do |opt|
+                 opt.banner = "Usage: absorb #{command_name} [filename]"
+                 opt.separator ''
+                 opt.separator 'Options'
 
-        opt.on('-m','--message','runing on daemon mode?') do |message|
-          options[:message] = message
-        end
+                 opt.on('-h','--help','help') do
+                   the_options[:help] = true
+                 end
+               end
 
-        opt.on('-h','--help','help') do
-          puts opt_parser
-        end
-      end
+      @parser.parse!
+      @parser.options = the_options
+      @parser
     end
   end
 end

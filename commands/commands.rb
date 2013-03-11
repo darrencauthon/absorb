@@ -1,9 +1,12 @@
 module Commands
   def self.the_appropriate_command
-    global = Commands::Default.option_parser
-    name = ARGV.shift
+    name = ARGV[0]
 
     command_type = Commands::Base.commands.select { |x| x.command_name == name }.first || Default
-    command_type.new ARGV, global.options
+    options = command_type.option_parser.options
+    arguments = ARGV
+    puts arguments.inspect
+    puts options.inspect
+    command_type.new arguments, options
   end
 end
