@@ -10,9 +10,8 @@ module Commands
     end
 
     def self.option_parser
-      return @parser if @parser
       the_options = {}
-      @parser = OptionParser.new do |opt|
+      parser = OptionParser.new do |opt|
                  opt.banner = "Usage: absorb #{command_name} [filename]"
                  opt.separator ''
                  opt.separator 'Options'
@@ -22,9 +21,9 @@ module Commands
                  end
                end
 
-      @parser.parse!
-      @parser.options = the_options
-      @parser
+      parser.parse!
+      parser.options = the_options
+      parser
     end
   end
 end
