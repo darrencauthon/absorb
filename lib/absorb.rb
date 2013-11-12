@@ -1,5 +1,6 @@
 require "absorb/version"
 
 module Absorb
-  # Your code goes here...
+  def self.file file
+  end
 end
