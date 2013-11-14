@@ -1,14 +1,15 @@
 module Absorb
   module AmazonS3
     def self.store_file file
-
       setup_s3
-
-      name = file.split('/')[-1]
-      AWS::S3::S3Object.store(name, open(file), bucket_name)
+      store_this_as file, file.split('/')[-1]
     end
 
     private
+
+    def self.store_this_as file, name
+      AWS::S3::S3Object.store(name, open(file), bucket_name)
+    end
 
     def self.setup_s3
       AWS::S3::Base.establish_connection!(
