@@ -20,8 +20,8 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     Absorb.file test_file(@file)
   end
 
-  step 'the file should be uploaded to S3' do
-    bucket[@file].nil?.must_equal false
+  step 'the file should be uploaded to S3 in a unique folder' do
+    bucket["GUID/#{@file}"].nil?.must_equal false
   end
 
   def create_a_file file, content = 'x'

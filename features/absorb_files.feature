@@ -6,4 +6,4 @@ Feature: Absorb files
   Scenario: Absorb a single file
     Given I have a file
     When I absorb the file
-    Then the file should be uploaded to S3 
+    Then the file should be uploaded to S3 in a unique folder
