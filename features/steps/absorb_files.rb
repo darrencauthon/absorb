@@ -2,6 +2,8 @@ require_relative 'common'
 
 class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
+  before { Absorb::AmazonS3.delete_bucket }
+
   step 'I have a file' do
     @file = 'file.txt'
     create_a_file @file
