@@ -4,18 +4,20 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
   before { setup_s3 }
 
+  attr_accessor :file
+
   step 'I have a file' do
-    @file = 'file.txt'
-    create_a_file @file
+    file = 'file.txt'
+    create_a_file file
   end
 
   step 'I absorb the file' do
-    Absorb.file @file
+    Absorb.file test_file(file)
   end
 
   step 'the file should be uploaded to S3' do
-    #AWS::S3::S3Object.store(@file, open(test_file(@file)), bucket_name)
-    bucket[@file].nil?.must_equal false
+    #AWS::S3::S3Object.store(file, open(test_file(file)), bucket_name)
+    bucket[file].nil?.must_equal false
   end
 
   def create_a_file file, content = 'x'
