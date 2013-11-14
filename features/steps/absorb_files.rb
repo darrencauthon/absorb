@@ -11,6 +11,11 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     @s3.delete_bucket
   end
 
+  before do
+    @guid = 'abc'
+    Absorb::Guid.stubs(:generate).returns 'abc'
+  end
+
   step 'I have a file' do
     @file = 'file.txt'
     create_a_file @file
@@ -21,7 +26,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'the file should be uploaded to S3 in a unique folder' do
-    bucket["GUID/#{@file}"].nil?.must_equal false
+    bucket["#{@guid}/#{@file}"].nil?.must_equal false
   end
 
   def create_a_file file, content = 'x'

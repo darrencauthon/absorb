@@ -33,7 +33,7 @@ module Absorb
     private
 
     def store_this_as file, name
-      AWS::S3::S3Object.store("GUID/#{name}", open(file), bucket_name)
+      AWS::S3::S3Object.store("#{Absorb::Guid.generate}/#{name}", open(file), bucket_name)
     end
   end
 end
