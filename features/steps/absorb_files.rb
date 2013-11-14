@@ -2,7 +2,14 @@ require_relative 'common'
 
 class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
-  before { Absorb::AmazonS3.delete_bucket }
+  before do
+    @s3 = Absorb::AmazonS3.new({
+                                 bucket_name: ENV['BUCKET_NAME'],
+                                 access_key_id: ENV['ACCESS_KEY_ID'],
+                                 secret_access_key: ENV['SECRET_ACCESS_KEY'],
+                               })
+    @s3.delete_bucket
+  end
 
   step 'I have a file' do
     @file = 'file.txt'
@@ -30,6 +37,6 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   def bucket_name
-    ENV['BUCKET']
+    ENV['BUCKET_NAME']
   end
 end
