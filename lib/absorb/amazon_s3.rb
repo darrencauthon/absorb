@@ -6,6 +6,7 @@ module Absorb
     def initialize options
       @options = options
       @bucket_name = options[:bucket_name]
+      setup
     end
 
     def setup
@@ -16,14 +17,11 @@ module Absorb
     end
 
     def delete_bucket
-      setup
       AWS::S3::Bucket.delete(bucket_name, force: true)
     rescue
     end
 
     def store_file file
-      setup
-
       begin
         AWS::S3::Bucket.create(bucket_name)
       rescue
