@@ -1,6 +1,24 @@
 require_relative 'common'
 
 class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
+
+  before do
+    AWS::S3::Base.establish_connection!(
+      :access_key_id     => ENV['ACCESS_KEY_ID'],
+      :secret_access_key => ENV['SECRET_ACCESS_KEY']
+    )
+
+    begin
+      AWS::S3::Bucket.delete(bucket_name, force: true)
+    rescue
+    end
+
+    begin
+      AWS::S3::Bucket.create(bucket_name)
+    rescue
+    end
+  end
+
   step 'I have a file' do
     @file = 'file.txt'
     create_a_file @file
@@ -11,10 +29,23 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'the file should be uploaded to S3' do
-    pending 'start by determining how to judge this'
+    #AWS::S3::S3Object.store(@file, open(test_file(@file)), bucket_name)
+    bucket[@file].nil?.must_equal false
   end
 
   def create_a_file file, content = 'x'
-    File.open('temp/file.txt', 'w') { |file| file.write(content) }
+    File.open(test_file(file), 'w') { |file| file.write(content) }
+  end
+
+  def bucket
+    AWS::S3::Bucket.find bucket_name
+  end
+
+  def test_file file
+    "temp/#{file}"
+  end
+
+  def bucket_name
+    ENV['BUCKET']
   end
 end

@@ -1,3 +1,4 @@
+require 'aws/s3'
 require "absorb/version"
 
 module Absorb
