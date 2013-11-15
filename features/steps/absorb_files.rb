@@ -26,7 +26,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'the file should be uploaded to S3 in a unique folder' do
-    bucket["#{@guid}/#{@file}"].nil?.must_equal false
+    bucket.objects["#{@guid}/#{@file}"].nil?.must_equal false
   end
 
   def create_a_file file, content = 'x'
@@ -34,7 +34,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   def bucket
-    AWS::S3::Bucket.find bucket_name
+    AWS::S3.new.buckets[bucket_name]
   end
 
   def test_file file

@@ -22,5 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "spinach"
   spec.add_development_dependency "mocha"
-  spec.add_dependency "aws-s3"
+  spec.add_dependency "dynamoid"
 end
