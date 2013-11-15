@@ -9,8 +9,9 @@ module Absorb
                  secret_access_key: ENV['SECRET_ACCESS_KEY'],
                }
 
-    AWS.config(access_key_id:     settings[:access_key_id],
-               secret_access_key: settings[:secret_access_key])
+    AWS.config(access_key_id:       settings[:access_key_id],
+               secret_access_key:   settings[:secret_access_key],
+               dynamo_db_endpoint: 'dynamodb.us-east-1.amazonaws.com')
 
     s3 = Absorb::AmazonS3.new settings[:bucket_name]
 
