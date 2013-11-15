@@ -7,3 +7,4 @@ Feature: Absorb files
     Given I have a file
     When I absorb the file
     Then the file should be uploaded to S3 in a unique folder
+    And a record of the upload should be made in DynamoDB
