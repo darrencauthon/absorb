@@ -8,13 +8,13 @@ module Absorb
     end
 
     def delete_bucket
-      AWS::S3.new.delete(bucket_name, force: true)
+      s3.delete(bucket_name, force: true)
     rescue
     end
 
     def store_file file
       begin
-        AWS::S3.new.create(bucket_name)
+        s3.create(bucket_name)
       rescue
       end
 
@@ -23,8 +23,12 @@ module Absorb
 
     private
 
+    def s3
+      AWS::S3.new
+    end
+
     def store_this_as file, name
-      AWS::S3.new.buckets[bucket_name].objects["#{Absorb::Guid.generate}/#{name}"]
+      s3.buckets[bucket_name].objects["#{Absorb::Guid.generate}/#{name}"]
         .write(Pathname.new(file))
     end
   end
