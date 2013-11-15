@@ -39,6 +39,8 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
       config.read_capacity = 100 # Read capacity for your tables
       config.write_capacity = 20 # Write capacity for your tables
     end
+
+    Upload.where(filename: @file).all.count.must_equal 0
   end
 
   def create_a_file file, content = 'x'
