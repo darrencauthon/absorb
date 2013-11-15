@@ -8,6 +8,7 @@ module Absorb
                                 access_key_id: ENV['ACCESS_KEY_ID'],
                                 secret_access_key: ENV['SECRET_ACCESS_KEY'],
                               })
-    s3.store_file file
+    absorber = Absorb::Absorber.new s3
+    absorber.absorb file
   end
 end
