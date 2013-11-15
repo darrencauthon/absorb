@@ -12,7 +12,7 @@ module Absorb
     AWS.config(access_key_id:     settings[:access_key_id],
                secret_access_key: settings[:secret_access_key])
 
-    s3 = Absorb::AmazonS3.new settings
+    s3 = Absorb::AmazonS3.new settings[:bucket_name]
 
     absorber = Absorb::Absorber.new s3
     absorber.absorb file

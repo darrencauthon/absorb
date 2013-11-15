@@ -3,9 +3,8 @@ module Absorb
 
     attr_reader :bucket_name
 
-    def initialize options
-      @options = options
-      @bucket_name = options[:bucket_name]
+    def initialize bucket
+      @bucket_name = bucket
     end
 
     def delete_bucket
