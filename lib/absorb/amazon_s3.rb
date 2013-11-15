@@ -31,9 +31,8 @@ module Absorb
     private
 
     def store_this_as file, name
-      #AWS::S3::S3Object.store("#{Absorb::Guid.generate}/#{name}", open(file), bucket_name)
-      obj = AWS::S3.new.buckets[bucket_name].objects["#{Absorb::Guid.generate}/#{name}"]
-      obj.write(Pathname.new(file))
+      AWS::S3.new.buckets[bucket_name].objects["#{Absorb::Guid.generate}/#{name}"]
+        .write(Pathname.new(file))
     end
   end
 end
