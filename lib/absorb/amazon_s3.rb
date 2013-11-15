@@ -6,12 +6,6 @@ module Absorb
     def initialize options
       @options = options
       @bucket_name = options[:bucket_name]
-      setup
-    end
-
-    def setup
-      AWS.config(access_key_id:     @options[:access_key_id],
-                 secret_access_key: @options[:secret_access_key])
     end
 
     def delete_bucket

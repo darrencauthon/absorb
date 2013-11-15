@@ -8,6 +8,10 @@ module Absorb
                  access_key_id:     ENV['ACCESS_KEY_ID'],
                  secret_access_key: ENV['SECRET_ACCESS_KEY'],
                }
+
+    AWS.config(access_key_id:     settings[:access_key_id],
+               secret_access_key: settings[:secret_access_key])
+
     s3 = Absorb::AmazonS3.new settings
 
     absorber = Absorb::Absorber.new s3
