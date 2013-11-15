@@ -11,8 +11,8 @@ module Absorb
 
     def setup
       AWS::S3::Base.establish_connection!(
-        :access_key_id     => @options[:access_key_id],
-        :secret_access_key => @options[:secret_access_key]
+        access_key_id:     @options[:access_key_id],
+        secret_access_key: @options[:secret_access_key]
       )
     end
 
