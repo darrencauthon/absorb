@@ -44,8 +44,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'a record of the upload should be made in DynamoDB' do
-
-    Upload.where(filename: @file).all.count.must_equal 1
+    Upload.where(uuid: @guid).all.count.must_equal 1
   end
 
   def create_a_file file, content = 'x'

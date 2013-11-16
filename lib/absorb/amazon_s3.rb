@@ -12,13 +12,13 @@ module Absorb
     rescue
     end
 
-    def store_file file
+    def store_file file, to
       begin
         s3.create(bucket_name)
       rescue
       end
 
-      store_this_as file, file.split('/')[-1]
+      store_this_as file, to
     end
 
     private
@@ -27,8 +27,8 @@ module Absorb
       AWS::S3.new
     end
 
-    def store_this_as file, name
-      s3.buckets[bucket_name].objects["#{Absorb::Guid.generate}/#{name}"]
+    def store_this_as file, to
+      s3.buckets[bucket_name].objects[to]
         .write(Pathname.new(file))
     end
   end
