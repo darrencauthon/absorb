@@ -9,11 +9,25 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
                                  secret_access_key: ENV['SECRET_ACCESS_KEY'],
                                })
     @s3.delete_bucket
-  end
 
-  before do
     @guid = 'abc'
     Absorb::Guid.stubs(:generate).returns 'abc'
+
+    Absorb.startup
+
+    Dynamoid.configure do |config|
+      config.adapter = 'aws_sdk' # This adapter establishes a connection to the DynamoDB servers using Amazon's own AWS gem.
+      config.namespace = "absorb_test" # To namespace tables created by Dynamoid from other tables you might have.
+      config.warn_on_scan = true # Output a warning to the logger when you perform a scan rather than a query on a table.
+      config.partitioning = true # Spread writes randomly across the database. See "partitioning" below for more.
+      config.partition_size = 200  # Determine the key space size that writes are randomly spread across.
+      config.read_capacity = 100 # Read capacity for your tables
+      config.write_capacity = 20 # Write capacity for your tables
+    end
+
+    Upload.all.each do |upload|
+      upload.delete
+    end
   end
 
   step 'I have a file' do
@@ -30,17 +44,8 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'a record of the upload should be made in DynamoDB' do
-    Dynamoid.configure do |config|
-      config.adapter = 'aws_sdk' # This adapter establishes a connection to the DynamoDB servers using Amazon's own AWS gem.
-      config.namespace = "absorb_test" # To namespace tables created by Dynamoid from other tables you might have.
-      config.warn_on_scan = true # Output a warning to the logger when you perform a scan rather than a query on a table.
-      config.partitioning = true # Spread writes randomly across the database. See "partitioning" below for more.
-      config.partition_size = 200  # Determine the key space size that writes are randomly spread across.
-      config.read_capacity = 100 # Read capacity for your tables
-      config.write_capacity = 20 # Write capacity for your tables
-    end
 
-    Upload.where(filename: @file).all.count.must_equal 0
+    Upload.where(filename: @file).all.count.must_equal 1
   end
 
   def create_a_file file, content = 'x'

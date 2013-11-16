@@ -6,6 +6,9 @@ module Absorb
 
     def absorb file
       @s3.store_file file
+      upload = Upload.new
+      upload.filename = file.split('/')[-1]
+      upload.save
     end
   end
 end

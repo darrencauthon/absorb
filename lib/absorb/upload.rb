@@ -3,4 +3,5 @@ class Upload
 
   table :name => :uploads, :key => :id, :read_capacity => 400, :write_capacity => 400
   field :name
+  field :filename
 end
