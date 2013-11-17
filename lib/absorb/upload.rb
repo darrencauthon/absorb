@@ -10,6 +10,7 @@ class Upload
     u = self.new
 
     uuid = Absorb::Guid.generate
+    to = file.split('/')[-1]
     to = "#{uuid}/#{to}"
     u.uuid = uuid
     u.save
