@@ -19,8 +19,7 @@ module Absorb
   end
 
   def self.file file
-    s3 = Absorb::AmazonS3.new settings[:bucket_name]
-    absorber = Absorb::Absorber.new s3
+    absorber = Absorb::Absorber.new
     absorber.absorb file
   end
 end
