@@ -3,8 +3,7 @@ require_relative 'common'
 class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
   before do
-    Amazon.startup
-    @s3 = Absorb::AmazonS3.new Absorb.settings[:bucket_name]
+    @s3 = Absorb::AmazonS3.new
     @s3.delete_bucket
 
     @guid = 'abc'

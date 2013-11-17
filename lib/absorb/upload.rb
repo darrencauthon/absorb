@@ -14,7 +14,7 @@ class Upload
     u.uuid = uuid
     u.save
 
-    s3 = Absorb::AmazonS3.new Absorb.settings[:bucket_name]
+    s3 = Absorb::AmazonS3.new
     s3.store_file file, to
   end
 end

@@ -1,10 +1,8 @@
 module Absorb
   class AmazonS3
 
-    attr_reader :bucket_name
-
-    def initialize bucket
-      @bucket_name = bucket
+    def initialize
+      Amazon.startup
     end
 
     def delete_bucket
@@ -14,11 +12,15 @@ module Absorb
 
     def store_file file, to
       begin
-        s3.create(bucket_name)
+        s3.create bucket_name
       rescue
       end
 
       store_this_as file, to
+    end
+
+    def bucket_name
+      Absorb.settings[:bucket_name]
     end
 
     private
