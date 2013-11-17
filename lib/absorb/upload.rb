@@ -6,11 +6,13 @@ class Upload
   field :uuid
   field :filename
 
-  def upload file
+  def self.upload file
+    u = self.new
+
     uuid = Absorb::Guid.generate
     to = "#{uuid}/#{to}"
-    self.uuid = uuid
-    self.save
+    u.uuid = uuid
+    u.save
 
     s3 = Absorb::AmazonS3.new Absorb.settings[:bucket_name]
     s3.store_file file, to

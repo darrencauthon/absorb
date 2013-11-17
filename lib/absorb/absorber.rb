@@ -5,8 +5,7 @@ module Absorb
     end
 
     def absorb file
-      upload = Upload.new
-      upload.upload file
+      Upload.upload file
     end
   end
 end
