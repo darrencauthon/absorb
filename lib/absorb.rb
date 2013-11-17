@@ -4,11 +4,6 @@ require 'uuid'
 Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each {|file| require file }
 
 module Absorb
-  def self.startup
-    AWS.config(access_key_id:       settings[:access_key_id],
-               secret_access_key:   settings[:secret_access_key],
-               dynamo_db_endpoint: 'dynamodb.us-east-1.amazonaws.com')
-  end
 
   def self.settings
     {
@@ -19,6 +14,7 @@ module Absorb
   end
 
   def self.file file
+    Amazon.startup
     absorber = Absorb::Absorber.new
     absorber.absorb file
   end

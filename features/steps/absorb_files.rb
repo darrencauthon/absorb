@@ -3,17 +3,12 @@ require_relative 'common'
 class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
   before do
-    @s3 = Absorb::AmazonS3.new({
-                                 bucket_name: ENV['BUCKET_NAME'],
-                                 access_key_id: ENV['ACCESS_KEY_ID'],
-                                 secret_access_key: ENV['SECRET_ACCESS_KEY'],
-                               })
+    Amazon.startup
+    @s3 = Absorb::AmazonS3.new Absorb.settings[:bucket_name]
     @s3.delete_bucket
 
     @guid = 'abc'
     Absorb::Guid.stubs(:generate).returns 'abc'
-
-    Absorb.startup
 
     Dynamoid.configure do |config|
       config.adapter = 'aws_sdk' # This adapter establishes a connection to the DynamoDB servers using Amazon's own AWS gem.
