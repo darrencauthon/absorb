@@ -9,9 +9,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     @guid = 'abc'
     Absorb::Guid.stubs(:generate).returns 'abc'
 
-    Absorb::Upload.all.each do |upload|
-      upload.delete
-    end
+    Absorb::Upload.all.each { |u| u.delete }
   end
 
   step 'I have a file' do
