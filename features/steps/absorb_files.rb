@@ -23,6 +23,11 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     @files.each { |f| create_a_file f }
   end
 
+  step 'I have two files of different depth' do
+    @files = ['dog/file4.txt', 'dog/cat/file5.txt']
+    @files.each { |f| create_a_file f }
+  end
+
   step 'I absorb the file' do
     Absorb.file test_file(@file)
   end
@@ -57,12 +62,30 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
     files.count.must_equal @files.count
 
-    @files.each_with_index do |file, index|
-      files[index].name.must_equal @files[index]
+    files.each do |file|
+      @files.include?(file.name).must_equal true
+    end
+  end
+
+  def directories_of file
+    dirs = file.split('/').reverse
+    dirs.shift
+
+    previous = ""
+    dirs.reverse.map do |d| 
+      d = [previous, d].select { |x| x != '' }.join('/')
+      previous = d
+      test_directory d
     end
   end
 
   def create_a_file file, content = 'x'
+    directories_of(file).each do |dir|
+      begin
+        Dir.mkdir dir
+      rescue
+      end
+    end
     File.open(test_file(file), 'w') { |file| file.write(content) }
   end
 
@@ -72,6 +95,10 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
   def test_file file
     "temp/#{file}"
+  end
+
+  def test_directory directory
+    test_file directory
   end
 
   def bucket_name

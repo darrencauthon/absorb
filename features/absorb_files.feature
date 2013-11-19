@@ -16,3 +16,10 @@ Feature: Absorb files
     Then the files should be uploaded to S3 in a unique folder
     And a record of the upload should be made in DynamoDB
     And details of the file uploads should be made
+
+  Scenario: Absorb two files of different depth
+    Given I have two files of different depth
+    When I absorb the files
+    Then the files should be uploaded to S3 in a unique folder
+    And a record of the upload should be made in DynamoDB
+    And details of the file uploads should be made
