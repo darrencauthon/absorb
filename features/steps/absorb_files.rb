@@ -31,7 +31,10 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'details of the file upload should be made' do
-    Absorb::File.where(uuid: @guid).all.count.must_equal 1
+    files = Absorb::File.where(uuid: @guid).all
+
+    files.count.must_equal 1
+    files.first.name.must_equal @file
   end
 
   def create_a_file file, content = 'x'
