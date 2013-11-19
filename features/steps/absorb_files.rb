@@ -10,6 +10,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     Absorb::Guid.stubs(:generate).returns 'abc'
 
     Absorb::Upload.all.each { |u| u.delete }
+    Absorb::File.all.each   { |f| f.delete }
   end
 
   step 'I have a file' do
