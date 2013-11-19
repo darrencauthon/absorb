@@ -9,13 +9,13 @@ module Amazon
     @started_up = true
   end
 
-  def start_aws_from settings
+  def self.start_aws_from settings
     AWS.config(access_key_id:       settings[:access_key_id],
                secret_access_key:   settings[:secret_access_key],
-               dynamo_db_endpoint: 'dynamodb.us-east-1.amazonaws.com')
+               dynamo_db_endpoint:  settings[:dynamo_db_endpoint])
   end
 
-  def start_dynamodb_from settings
+  def self.start_dynamodb_from settings
     Dynamoid.configure do |config|
       config.adapter        = 'aws_sdk'
       config.namespace      = settings[:dynamodb_upload]

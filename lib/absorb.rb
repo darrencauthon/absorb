@@ -7,10 +7,11 @@ module Absorb
 
   def self.settings
     {
-      bucket_name:       ENV['BUCKET_NAME'],
-      access_key_id:     ENV['ACCESS_KEY_ID'],
-      secret_access_key: ENV['SECRET_ACCESS_KEY'],
-      dynamodb_upload:   ENV['DYNAMODB_UPLOAD'],
+      bucket_name:          ENV['BUCKET_NAME'],
+      access_key_id:        ENV['ACCESS_KEY_ID'],
+      secret_access_key:    ENV['SECRET_ACCESS_KEY'],
+      dynamodb_upload:      ENV['DYNAMODB_UPLOAD'],
+      dynamodb_db_endpoint: 'dynamodb.us-east-1.amazonaws.com'
     }
   end
 
