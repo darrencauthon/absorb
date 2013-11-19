@@ -18,12 +18,27 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     create_a_file @file
   end
 
+  step 'I have two files' do
+    @files = ['file2.txt', 'file3.txt']
+    @files.each { |f| create_a_file f }
+  end
+
   step 'I absorb the file' do
     Absorb.file test_file(@file)
   end
 
+  step 'I absorb the files' do
+    Absorb.files(@files.map  { |f| test_file(f) } )
+  end
+
   step 'the file should be uploaded to S3 in a unique folder' do
     bucket.objects["#{@guid}/#{@file}"].nil?.must_equal false
+  end
+
+  step 'the files should be uploaded to S3 in a unique folder' do
+    @files.each do |file|
+      bucket.objects["#{@guid}/#{file}"].nil?.must_equal false
+    end
   end
 
   step 'a record of the upload should be made in DynamoDB' do
@@ -35,6 +50,16 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
     files.count.must_equal 1
     files.first.name.must_equal @file
+  end
+
+  step 'details of the file uploads should be made' do
+    files = Absorb::File.where(uuid: @guid).all
+
+    files.count.must_equal @files.count
+
+    @files.each_with_index do |file, index|
+      files[index].name.must_equal @files[index]
+    end
   end
 
   def create_a_file file, content = 'x'
