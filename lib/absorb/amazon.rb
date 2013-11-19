@@ -19,11 +19,6 @@ module Amazon
     Dynamoid.configure do |config|
       config.adapter        = 'aws_sdk'
       config.namespace      = settings[:dynamodb_upload]
-      config.warn_on_scan   = true
-      config.partitioning   = true
-      config.partition_size = 200
-      config.read_capacity  = 100
-      config.write_capacity = 20
     end
   end
 
