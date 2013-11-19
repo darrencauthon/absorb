@@ -1,8 +1,10 @@
-class Upload
-  include Dynamoid::Document
+module Absorb
+  class Upload
+    include Dynamoid::Document
 
-  table :name => :uploads, :key => :id, :read_capacity => 400, :write_capacity => 400
-  field :name
-  field :uuid
-  field :filename
+    table :name => :uploads, :key => :id, :read_capacity => 400, :write_capacity => 400
+    field :name
+    field :uuid
+    field :filename
+  end
 end

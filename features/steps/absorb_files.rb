@@ -9,7 +9,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     @guid = 'abc'
     Absorb::Guid.stubs(:generate).returns 'abc'
 
-    Upload.all.each do |upload|
+    Absorb::Upload.all.each do |upload|
       upload.delete
     end
   end
@@ -28,7 +28,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'a record of the upload should be made in DynamoDB' do
-    Upload.where(uuid: @guid).all.count.must_equal 1
+    Absorb::Upload.where(uuid: @guid).all.count.must_equal 1
   end
 
   def create_a_file file, content = 'x'
