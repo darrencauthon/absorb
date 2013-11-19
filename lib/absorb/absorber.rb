@@ -1,6 +1,8 @@
 module Absorb
   class Absorber
     def absorb file
+
+      Absorb::File.create(uuid: Absorb::Guid.generate)
       upload = Absorb::Upload.create(uuid: Absorb::Guid.generate)
 
       s3 = Absorb::AmazonS3.new
