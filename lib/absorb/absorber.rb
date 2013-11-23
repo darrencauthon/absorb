@@ -1,5 +1,7 @@
 module Absorb
+
   class Absorber
+
     def absorb files
       upload = Absorb::Upload.create(uuid: Absorb::Guid.generate)
       files.each { |f| add f, upload }
@@ -22,5 +24,7 @@ module Absorb
       segments.shift if segments.count > 1
       segments.join('/')
     end
+
   end
+
 end
