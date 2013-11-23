@@ -8,14 +8,19 @@ module Absorb
     private
 
     def add file, upload
+      file_name = get_the_file_name_from file
+      Absorb::File.create(uuid: upload.uuid, name: file_name)
+      s3.store_file file, "#{upload.uuid}/#{file_name}"
+    end
+
+    def s3
+      Absorb::AmazonS3.new
+    end
+
+    def get_the_file_name_from file
       segments = file.split('/')
       segments.shift if segments.count > 1
-      name = segments.join('/')
-
-      Absorb::File.create(uuid: upload.uuid, name: name)
-
-      s3 = Absorb::AmazonS3.new
-      s3.store_file file, "#{upload.uuid}/#{name}"
+      segments.join('/')
     end
   end
 end
