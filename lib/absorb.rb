@@ -18,4 +18,5 @@ module Absorb
     Amazon.startup
     Absorb::Absorber.new.absorb files
   end
+
 end
