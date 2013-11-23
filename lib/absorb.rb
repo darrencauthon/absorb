@@ -16,7 +16,6 @@ module Absorb
 
   def self.files files
     Amazon.startup
-    absorber = Absorb::Absorber.new
-    absorber.absorb files
+    Absorb::Absorber.new.absorb files
   end
 end
