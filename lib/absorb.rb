@@ -10,15 +10,12 @@ module Absorb
       bucket_name:          ENV['BUCKET_NAME'],
       access_key_id:        ENV['ACCESS_KEY_ID'],
       secret_access_key:    ENV['SECRET_ACCESS_KEY'],
-      dynamodb_upload:      ENV['DYNAMODB_UPLOAD'],
-      dynamodb_db_endpoint: 'dynamodb.us-east-1.amazonaws.com'
+      dynamodb_upload:      ENV['DYNAMODB_UPLOAD']
     }
   end
 
   def self.file file
-    Amazon.startup
-    absorber = Absorb::Absorber.new
-    absorber.absorb [file]
+    files [file]
   end
 
   def self.files files
