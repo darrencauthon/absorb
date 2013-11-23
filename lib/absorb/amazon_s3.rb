@@ -1,4 +1,5 @@
 module Absorb
+
   class AmazonS3
 
     def initialize
@@ -11,12 +12,10 @@ module Absorb
     end
 
     def store_file file, to
-      begin
-        s3.create bucket_name
-      rescue
-      end
-
-      store_this_as file, to
+      create_bucket
+      s3.buckets[bucket_name]
+        .objects[to]
+        .write(Pathname.new(file))
     end
 
     def bucket_name
@@ -25,13 +24,15 @@ module Absorb
 
     private
 
+    def create_bucket
+      s3.create bucket_name
+    rescue
+    end
+
     def s3
       AWS::S3.new
     end
 
-    def store_this_as file, to
-      s3.buckets[bucket_name].objects[to]
-        .write(Pathname.new(file))
-    end
   end
+
 end
