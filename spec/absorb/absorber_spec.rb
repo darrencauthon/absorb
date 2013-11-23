@@ -4,21 +4,22 @@ describe Absorb::Absorber do
 
   describe "absorb" do
 
+    let(:s3)       { Object.new }
+    let(:guid)     { Object.new }
+
+    let(:upload) do
+      [:uuid].to_objects { [[guid]] }.first
+    end
+
+    let(:absorber) do
+      a = Absorb::Absorber.new
+      a.stubs(:s3).returns s3
+      a
+    end
+
     describe "single file situation" do
 
       let(:files)    { ["one"] }
-      let(:s3)       { Object.new }
-      let(:guid)     { Object.new }
-
-      let(:upload) do
-        [:uuid].to_objects { [[guid]] }.first
-      end
-
-      let(:absorber) do
-        a = Absorb::Absorber.new
-        a.stubs(:s3).returns s3
-        a
-      end
 
       before do
         Absorb::Guid.stubs(:generate).returns guid
@@ -42,18 +43,6 @@ describe Absorb::Absorber do
     describe "multiple file situation" do
 
       let(:files)    { ["two", "three"] }
-      let(:s3)       { Object.new }
-      let(:guid)     { Object.new }
-
-      let(:upload) do
-        [:uuid].to_objects { [[guid]] }.first
-      end
-
-      let(:absorber) do
-        a = Absorb::Absorber.new
-        a.stubs(:s3).returns s3
-        a
-      end
 
       before do
         Absorb::Guid.stubs(:generate).returns guid
@@ -80,18 +69,6 @@ describe Absorb::Absorber do
     describe "deeper file" do
 
       let(:files)    { ["this/is/a/deep/file/one"] }
-      let(:s3)       { Object.new }
-      let(:guid)     { Object.new }
-
-      let(:upload) do
-        [:uuid].to_objects { [[guid]] }.first
-      end
-
-      let(:absorber) do
-        a = Absorb::Absorber.new
-        a.stubs(:s3).returns s3
-        a
-      end
 
       before do
         Absorb::Guid.stubs(:generate).returns guid
