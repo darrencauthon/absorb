@@ -29,7 +29,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'I absorb the file' do
-    Absorb.file test_file(@file)
+    Absorb.files [test_file(@file)]
   end
 
   step 'I absorb the files' do
