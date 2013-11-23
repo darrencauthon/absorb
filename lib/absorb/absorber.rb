@@ -9,9 +9,7 @@ module Absorb
 
     def add file, upload
       segments = file.split('/')
-      if segments.count > 1
-        segments.shift
-      end
+      segments.shift if segments.count > 1
       name = segments.join('/')
 
       Absorb::File.create(uuid: upload.uuid, name: name)
