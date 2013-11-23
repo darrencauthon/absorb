@@ -17,8 +17,8 @@ module Amazon
 
   def self.start_dynamodb_from settings
     Dynamoid.configure do |config|
-      config.adapter        = 'aws_sdk'
-      config.namespace      = settings[:dynamodb_upload]
+      config.adapter   = 'aws_sdk'
+      config.namespace = settings[:dynamodb_upload]
     end
   end
 
