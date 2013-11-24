@@ -1,3 +1,9 @@
 #!/usr/bin/env ruby
 
 require File.expand_path(File.dirname(__FILE__) + '/../lib/absorb.rb')
+
+files = ARGV
+
+files = files.select { |f| File.exist?(f) && File.file?(f) }
+
+puts files.inspect
