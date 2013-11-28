@@ -6,19 +6,9 @@ arguments   = [ARGV.map { |x| Dir.entries(x) }].flatten
 directories = arguments.select { |f| File.exist?(f) && File.directory?(f) }
 
 directories = directories.select { |x| ['.', '..'].include?(x) == false }
-
-def files_from directory
-  directories = Dir.entries(directory).select { |d| File.directory?(d) }.select { |x| ['.', '..'].include?(x) == false }
-  files = directories.map do |directory|
-            files_from directory
-          end.flatten
-  files << Dir.entries(directory).select { |f| File.directory?(f) == false }.flatten.map { |f| "#{directory}/#{f}" }
-  files.flatten
-end
-
 files       = arguments.select { |f| File.exist?(f) && File.file?(f) }
 
-files =  directories.map { |d| files_from d }
+files =  directories.map { |d| Absorb::FileSystem.files_from d }
 p files.flatten
 
 #Absorb.files files
