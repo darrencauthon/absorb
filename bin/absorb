@@ -2,13 +2,12 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../lib/absorb.rb')
 
-arguments   = [ARGV.map { |x| Dir.entries(x) }].flatten
-directories = arguments.select { |f| File.exist?(f) && File.directory?(f) }
+arguments = Dir.entries ARGV[0]
+directories = arguments.select { |f| File.directory?(f) }
+                       .select { |x| ['.', '..'].include?(x) == false }
 
-directories = directories.select { |x| ['.', '..'].include?(x) == false }
-files       = arguments.select { |f| File.exist?(f) && File.file?(f) }
-
-files =  directories.map { |d| Absorb::FileSystem.files_from d }
-p files.flatten
+files = [arguments.select { |f| File.directory?(f) == false },
+         directories.map { |d| Absorb::FileSystem.files_from d } ].flatten
+p files
 
 #Absorb.files files
