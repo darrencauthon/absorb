@@ -1,6 +1,7 @@
 require 'aws/s3'
 require 'dynamoid'
 require 'uuid'
+require 'seam'
 Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each {|file| require file }
 
 module Absorb

@@ -2,9 +2,27 @@ module Absorb
 
   class Absorber
 
+    def self.file_flow
+      flow = Seam::Flow.new
+      flow.upload_file_to_s3
+      flow.record_the_upload_in_dynamo
+      flow
+    end
+
+    def self.upload_flow
+      flow = Seam::Flow.new
+      flow.create_an_upload
+      flow.upload_the_files
+      flow
+    end
+
     def absorb files
-      upload = Absorb::Upload.create(uuid: Absorb::Guid.generate)
-      files.each { |f| add f, upload }
+      upload_id = Absorb::Guid.generate
+      effort = self.class.upload_flow.start( { absorb_uuid: upload_id, files: files } )
+      CreateAnUploadWorker.new.execute_all
+      #puts Seam::Effort.find_all_by_step('create_an_upload').count.inspect
+      #upload = Absorb::Upload.create(uuid: upload_id)
+      #files.each { |f| add f, upload }
     end
 
     private

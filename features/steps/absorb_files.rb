@@ -3,6 +3,9 @@ require_relative 'common'
 class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
   before do
+    #clear out seam
+    Seam::Persistence.destroy
+
     @s3 = Absorb::AmazonS3.new
     @s3.delete_bucket
 

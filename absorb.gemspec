@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "subtle"
   spec.add_dependency "dynamoid"
   spec.add_dependency "uuid"
+  spec.add_dependency "seam"
 end
