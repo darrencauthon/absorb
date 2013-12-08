@@ -4,8 +4,8 @@ module Absorb
 
     def self.file_flow
       flow = Seam::Flow.new
-      flow.upload_file_to_s3
       flow.record_the_upload_in_dynamo
+      flow.upload_file_to_s3
       flow
     end
 
@@ -21,6 +21,22 @@ module Absorb
       effort = self.class.upload_flow(files).start( { absorb_uuid: upload_id, files: files } )
       CreateAnUploadWorker.new.execute_all
       AddTheFileToAnUploadWorker.new.execute_all
+      UploadFileToS3Worker.new.execute_all
+      RecordTheUploadInDynamoWorker.new.execute_all
+      UploadFileToS3Worker.new.execute_all
+      RecordTheUploadInDynamoWorker.new.execute_all
+      UploadFileToS3Worker.new.execute_all
+      RecordTheUploadInDynamoWorker.new.execute_all
+      UploadFileToS3Worker.new.execute_all
+      RecordTheUploadInDynamoWorker.new.execute_all
+      UploadFileToS3Worker.new.execute_all
+      RecordTheUploadInDynamoWorker.new.execute_all
+      UploadFileToS3Worker.new.execute_all
+      RecordTheUploadInDynamoWorker.new.execute_all
+      UploadFileToS3Worker.new.execute_all
+      RecordTheUploadInDynamoWorker.new.execute_all
+      UploadFileToS3Worker.new.execute_all
+      RecordTheUploadInDynamoWorker.new.execute_all
     end
 
     private
