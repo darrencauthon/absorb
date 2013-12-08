@@ -12,9 +12,7 @@ module Absorb
     def self.upload_flow files
       flow = Seam::Flow.new
       flow.create_an_upload
-      files.each do |file|
-        flow.add_the_file_to_an_upload file: file
-      end
+      files.each { |f| flow.add_the_file_to_an_upload(file: f) }
       flow
     end
 
