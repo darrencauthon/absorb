@@ -20,9 +20,7 @@ module Absorb
       upload_id = Absorb::Guid.generate
       effort = self.class.upload_flow.start( { absorb_uuid: upload_id, files: files } )
       CreateAnUploadWorker.new.execute_all
-      #puts Seam::Effort.find_all_by_step('create_an_upload').count.inspect
-      #upload = Absorb::Upload.create(uuid: upload_id)
-      #files.each { |f| add f, upload }
+      UploadTheFilesWorker.new.execute_all
     end
 
     private
