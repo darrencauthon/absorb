@@ -9,18 +9,20 @@ module Absorb
       flow
     end
 
-    def self.upload_flow
+    def self.upload_flow files
       flow = Seam::Flow.new
       flow.create_an_upload
-      flow.upload_the_files
+      files.each do |file|
+        flow.add_the_file_to_an_upload file: file
+      end
       flow
     end
 
     def absorb files
       upload_id = Absorb::Guid.generate
-      effort = self.class.upload_flow.start( { absorb_uuid: upload_id, files: files } )
+      effort = self.class.upload_flow(files).start( { absorb_uuid: upload_id, files: files } )
       CreateAnUploadWorker.new.execute_all
-      UploadTheFilesWorker.new.execute_all
+      AddTheFileToAnUploadWorker.new.execute_all
     end
 
     private

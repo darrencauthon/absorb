@@ -1,15 +1,14 @@
 module Absorb
 
-  class UploadTheFilesWorker < Seam::Worker
+  class AddTheFileToAnUploadWorker < Seam::Worker
+
     def initialize
-      handles :upload_the_files
+      handles :add_the_file_to_an_upload
     end
 
     def process
-      effort.data['files'].each do |file|
-        data = { file: file, upload_id: effort.data['upload_id'] }
-        ::Absorb::Absorber.file_flow.start( data )
-      end
+      data = { file: effort.data['file'], upload_id: effort.data['upload_id'] }
+      ::Absorb::Absorber.file_flow.start data
     end
   end
 
