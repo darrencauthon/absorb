@@ -39,10 +39,10 @@ module Absorb
 
   end
 
-  class AddTheFileToAnUploadWorker < Seam::Worker
+  class AddAFileToThePackageWorker < Seam::Worker
 
     def initialize
-      handles :add_the_file_to_an_upload
+      handles :add_a_file_to_the_package
     end
 
     def process
