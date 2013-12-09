@@ -19,24 +19,23 @@ module Absorb
     def absorb files
       upload_id = Absorb::Guid.generate
       effort = self.class.upload_flow(files).start( { absorb_uuid: upload_id, files: files } )
-      CreateAnUploadWorker.new.execute_all
-      AddTheFileToAnUploadWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
+
+      things_to_do = { 
+                       create_an_upload:            CreateAnUploadWorker,
+                       add_the_file_to_an_upload:   AddTheFileToAnUploadWorker,
+                       upload_file_to_s3:           UploadFileToS3Worker,
+                       record_the_upload_in_dynamo: RecordTheUploadInDynamoWorker
+                     }
+
+      steps_to_run = Seam.steps_to_run
+      while steps_to_run.count > 0
+        steps_to_run.each do |step|
+          worker_class = things_to_do[step.to_sym]
+          things_to_do[step.to_sym].new.execute_all
+        end
+      steps_to_run = Seam.steps_to_run
+      end
+
     end
 
     private
