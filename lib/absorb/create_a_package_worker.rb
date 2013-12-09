@@ -7,8 +7,16 @@ module Absorb
     end
 
     def process
-      package = Absorb::Package.create(uuid: effort.data['absorb_uuid'])
-      self.effort.data['package_id'] = package.id
+      package = create_package
+      save_the_package_id_for package
+    end
+
+    def create_package
+      Absorb::Package.create(uuid: effort.data['absorb_uuid'])
+    end
+
+    def save_the_package_id_for package
+      effort.data['package_id'] = package.id
     end
 
   end
