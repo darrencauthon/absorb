@@ -7,14 +7,23 @@ module Absorb
     end
 
     def process
-      file          = effort.data['file']
-      relative_file = effort.data['relative_file']
-      package_uuid   = effort.data['package_uuid']
       s3.store_file file, "#{package_uuid}/#{relative_file}"
     end
 
     def s3
       Absorb::AmazonS3.new
+    end
+
+    def file
+      effort.data['file']
+    end
+
+    def relative_file
+      effort.data['relative_file']
+    end
+
+    def package_uuid
+      effort.data['package_uuid']
     end
 
   end
