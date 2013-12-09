@@ -2,17 +2,17 @@ module Absorb
 
   class Absorber
 
-    def self.file_flow
-      flow = Seam::Flow.new
-      flow.record_the_upload_in_dynamo
-      flow.upload_file_to_s3
-      flow
-    end
-
     def self.package_flow files
       flow = Seam::Flow.new
       flow.create_a_package
       files.each { |f| flow.add_the_file_to_an_upload(file: f) }
+      flow
+    end
+
+    def self.file_flow
+      flow = Seam::Flow.new
+      flow.record_the_upload_in_dynamo
+      flow.upload_file_to_s3
       flow
     end
 
