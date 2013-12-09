@@ -49,7 +49,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     end
   end
 
-  step 'a record of the upload should be made in DynamoDB' do
+  step 'a record of the package should be made in DynamoDB' do
     Absorb::Package.where(uuid: @guid).all.count.must_equal 1
   end
 
