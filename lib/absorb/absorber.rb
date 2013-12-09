@@ -17,13 +17,16 @@ module Absorb
     end
 
     def absorb files
-      package_data = { absorb_uuid: Absorb::Guid.generate, 
-                       files: files }
-      self.class.package_flow_for(files).start package_data
+      create_the_work_to_upload files
       complete_the_work
     end
 
     private
+
+    def create_the_work_to_upload files
+      package_data = { absorb_uuid: Absorb::Guid.generate }
+      self.class.package_flow_for(files).start package_data
+    end
 
     def complete_the_work
       while steps_to_run.count > 0
