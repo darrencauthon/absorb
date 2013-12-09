@@ -7,10 +7,10 @@ module Absorb
 
     def process
       file = effort.data['file']
-      upload = Absorb::Package.find(effort.data['upload_id'])
+      package = Absorb::Package.find(effort.data['package_id'])
       relative_file = get_the_relative_file_from effort.data['file']
-      Absorb::File.create(uuid: upload.uuid, name: relative_file)
-      effort.data['upload_uuid'] = upload.uuid
+      Absorb::File.create(uuid: package.uuid, name: relative_file)
+      effort.data['package_uuid'] = package.uuid
       effort.data['relative_file'] = relative_file
     end
 
@@ -29,8 +29,8 @@ module Absorb
     def process
       file          = effort.data['file']
       relative_file = effort.data['relative_file']
-      upload_uuid   = effort.data['upload_uuid']
-      s3.store_file file, "#{upload_uuid}/#{relative_file}"
+      package_uuid   = effort.data['package_uuid']
+      s3.store_file file, "#{package_uuid}/#{relative_file}"
     end
 
     def s3
@@ -47,7 +47,7 @@ module Absorb
 
     def process
       file = current_step['arguments'][0]['file']
-      data = { file: file, upload_id: effort.data['upload_id'] }
+      data = { file: file, package_id: effort.data['package_id'] }
       ::Absorb::Absorber.file_flow.start data
     end
   end
@@ -59,8 +59,8 @@ module Absorb
     end
 
     def process
-      upload = Absorb::Package.create(uuid: effort.data['absorb_uuid'])
-      self.effort.data['upload_id'] = upload.id
+      package = Absorb::Package.create(uuid: effort.data['absorb_uuid'])
+      self.effort.data['package_id'] = package.id
     end
   end
 end
