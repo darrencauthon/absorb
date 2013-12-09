@@ -7,9 +7,16 @@ module Absorb
     end
 
     def process
-      file = current_step['arguments'][0]['file']
-      data = { file: file, package_id: effort.data['package_id'] }
       ::Absorb::Absorber.file_flow.start data
+    end
+
+    private
+
+    def data
+      { 
+        file:       current_step['arguments'][0]['file'],
+        package_id: effort.data['package_id']
+      }
     end
 
   end
