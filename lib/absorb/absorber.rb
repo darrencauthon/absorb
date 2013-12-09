@@ -2,7 +2,7 @@ module Absorb
 
   class Absorber
 
-    def self.package_flow files
+    def self.package_flow_for files
       flow = Seam::Flow.new
       flow.create_a_package
       files.each { |f| flow.add_a_file_to_the_package(file: f) }
@@ -17,21 +17,23 @@ module Absorb
     end
 
     def absorb files
-
-      self.class.package_flow(files)
-                  .start( { absorb_uuid: Absorb::Guid.generate, files: files } )
-
-      steps_to_run = Seam.steps_to_run
-      while steps_to_run.count > 0
-        steps_to_run.each do |step|
-          things_to_do[step.to_sym].new.execute_all
-        end
-        steps_to_run = Seam.steps_to_run
-      end
-
+      package_data = { absorb_uuid: Absorb::Guid.generate, 
+                       files: files }
+      self.class.package_flow_for(files).start package_data
+      complete_the_work
     end
 
     private
+
+    def complete_the_work
+      while steps_to_run.count > 0
+        steps_to_run.each { |s| things_to_do[s.to_sym].new.execute_all }
+      end
+    end
+
+    def steps_to_run
+      Seam.steps_to_run
+    end
 
     def things_to_do
       @things_to_do ||= { 
