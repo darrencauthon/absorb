@@ -9,7 +9,7 @@ module Absorb
       flow
     end
 
-    def self.upload_flow files
+    def self.package_flow files
       flow = Seam::Flow.new
       flow.create_an_upload
       files.each { |f| flow.add_the_file_to_an_upload(file: f) }
@@ -18,7 +18,7 @@ module Absorb
 
     def absorb files
 
-      self.class.upload_flow(files)
+      self.class.package_flow(files)
                   .start( { absorb_uuid: Absorb::Guid.generate, files: files } )
 
       steps_to_run = Seam.steps_to_run
