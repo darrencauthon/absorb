@@ -12,7 +12,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     @guid = 'abc'
     Absorb::Guid.stubs(:generate).returns 'abc'
 
-    Absorb::Upload.all.each { |u| u.delete }
+    Absorb::Package.all.each { |u| u.delete }
     Absorb::File.all.each   { |f| f.delete }
   end
 
@@ -49,8 +49,8 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     end
   end
 
-  step 'a record of the upload should be made in DynamoDB' do
-    Absorb::Upload.where(uuid: @guid).all.count.must_equal 1
+  step 'a record of the package should be made in DynamoDB' do
+    Absorb::Package.where(uuid: @guid).all.count.must_equal 1
   end
 
   step 'details of the file upload should be made' do

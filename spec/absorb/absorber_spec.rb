@@ -23,7 +23,7 @@ describe Absorb::Absorber do
 
       before do
         Absorb::Guid.stubs(:generate).returns guid
-        Absorb::Upload.stubs(:create).with(uuid: guid).returns upload
+        Absorb::Package.stubs(:create).with(uuid: guid).returns upload
         Absorb::File.expects(:create).with(uuid: guid, name: "one")
         s3.expects(:store_file).with("one", "#{guid}/one")
 
@@ -46,7 +46,7 @@ describe Absorb::Absorber do
 
       before do
         Absorb::Guid.stubs(:generate).returns guid
-        Absorb::Upload.stubs(:create).with(uuid: guid).returns upload
+        Absorb::Package.stubs(:create).with(uuid: guid).returns upload
 
         files.each do |file|
           Absorb::File.expects(:create).with(uuid: guid, name: file)
@@ -72,7 +72,7 @@ describe Absorb::Absorber do
 
       before do
         Absorb::Guid.stubs(:generate).returns guid
-        Absorb::Upload.stubs(:create).with(uuid: guid).returns upload
+        Absorb::Package.stubs(:create).with(uuid: guid).returns upload
         Absorb::File.expects(:create).with(uuid: guid, name: "is/a/deep/file/one")
         s3.expects(:store_file).with(files.first, "#{guid}/is/a/deep/file/one")
 

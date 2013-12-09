@@ -2,60 +2,51 @@ module Absorb
 
   class Absorber
 
+    def self.package_flow_for files
+      flow = Seam::Flow.new
+      flow.create_a_package
+      files.each { |f| flow.add_a_file_to_the_package(file: f) }
+      flow
+    end
+
     def self.file_flow
       flow = Seam::Flow.new
-      flow.record_the_upload_in_dynamo
+      flow.record_the_file_in_dynamo
       flow.upload_file_to_s3
       flow
     end
 
-    def self.upload_flow files
-      flow = Seam::Flow.new
-      flow.create_an_upload
-      files.each { |f| flow.add_the_file_to_an_upload(file: f) }
-      flow
-    end
-
     def absorb files
-      upload_id = Absorb::Guid.generate
-      effort = self.class.upload_flow(files).start( { absorb_uuid: upload_id, files: files } )
-      CreateAnUploadWorker.new.execute_all
-      AddTheFileToAnUploadWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
-      UploadFileToS3Worker.new.execute_all
-      RecordTheUploadInDynamoWorker.new.execute_all
+      create_the_work_to_upload files
+      complete_the_work
     end
 
     private
 
-    def add file, upload
-      relative_file = get_the_relative_file_from file
-      Absorb::File.create(uuid: upload.uuid, name: relative_file)
-      s3.store_file file, "#{upload.uuid}/#{relative_file}"
+    def create_the_work_to_upload files
+      package_data = { absorb_uuid: Absorb::Guid.generate }
+      self.class.package_flow_for(files).start package_data
     end
 
-    def s3
-      Absorb::AmazonS3.new
+    def complete_the_work
+      while steps_to_run.count > 0
+        steps_to_run.each { |s| things_to_do[s.to_sym].new.execute_all }
+      end
     end
 
-    def get_the_relative_file_from file
-      segments = file.split('/')
-      segments.shift if segments.count > 1
-      segments.join('/')
+    def steps_to_run
+      Seam.steps_to_run
     end
+
+    def things_to_do
+      @things_to_do ||= { 
+                          create_a_package:          CreateAPackageWorker,
+                          add_a_file_to_the_package: AddAFileToThePackageWorker,
+                          upload_file_to_s3:         UploadFileToS3Worker,
+                          record_the_file_in_dynamo: RecordTheFileInDynamoWorker
+                        }
+    end
+
 
   end
 
