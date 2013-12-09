@@ -17,23 +17,16 @@ module Absorb
     end
 
     def absorb files
-      upload_id = Absorb::Guid.generate
-      effort = self.class.upload_flow(files).start( { absorb_uuid: upload_id, files: files } )
 
-      things_to_do = { 
-                       create_an_upload:            CreateAnUploadWorker,
-                       add_the_file_to_an_upload:   AddTheFileToAnUploadWorker,
-                       upload_file_to_s3:           UploadFileToS3Worker,
-                       record_the_upload_in_dynamo: RecordTheUploadInDynamoWorker
-                     }
+      self.class.upload_flow(files)
+                  .start( { absorb_uuid: Absorb::Guid.generate, files: files } )
 
       steps_to_run = Seam.steps_to_run
       while steps_to_run.count > 0
         steps_to_run.each do |step|
-          worker_class = things_to_do[step.to_sym]
           things_to_do[step.to_sym].new.execute_all
         end
-      steps_to_run = Seam.steps_to_run
+        steps_to_run = Seam.steps_to_run
       end
 
     end
@@ -55,6 +48,16 @@ module Absorb
       segments.shift if segments.count > 1
       segments.join('/')
     end
+
+    def things_to_do
+      @things_to_do ||= { 
+                          create_an_upload:            CreateAnUploadWorker,
+                          add_the_file_to_an_upload:   AddTheFileToAnUploadWorker,
+                          upload_file_to_s3:           UploadFileToS3Worker,
+                          record_the_upload_in_dynamo: RecordTheUploadInDynamoWorker
+                        }
+    end
+
 
   end
 
