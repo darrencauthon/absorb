@@ -52,10 +52,10 @@ module Absorb
     end
   end
 
-  class CreateAnUploadWorker < Seam::Worker
+  class CreateAPackageWorker < Seam::Worker
 
     def initialize
-      handles :create_an_upload
+      handles :create_a_package
     end
 
     def process

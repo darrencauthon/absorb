@@ -11,7 +11,7 @@ module Absorb
 
     def self.package_flow files
       flow = Seam::Flow.new
-      flow.create_an_upload
+      flow.create_a_package
       files.each { |f| flow.add_the_file_to_an_upload(file: f) }
       flow
     end
@@ -51,7 +51,7 @@ module Absorb
 
     def things_to_do
       @things_to_do ||= { 
-                          create_an_upload:            CreateAnUploadWorker,
+                          create_a_package:            CreateAPackageWorker,
                           add_the_file_to_an_upload:   AddTheFileToAnUploadWorker,
                           upload_file_to_s3:           UploadFileToS3Worker,
                           record_the_upload_in_dynamo: RecordTheUploadInDynamoWorker
