@@ -6,11 +6,14 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     #clear out seam
     Seam::Persistence.destroy
 
-    @s3 = Absorb::AmazonS3.new
-    @s3.delete_bucket
-
     @guid = 'abc'
     Absorb::Guid.stubs(:generate).returns 'abc'
+
+  end
+
+  step 'I am using Amazon services' do
+    @s3 = Absorb::AmazonS3.new
+    @s3.delete_bucket
 
     Absorb::Package.all.each { |u| u.delete }
     Absorb::File.all.each   { |f| f.delete }
