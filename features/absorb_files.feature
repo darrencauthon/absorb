@@ -3,7 +3,7 @@ Feature: Absorb files
   As a computer user
   I want to "absorb" the files into a S3 backup
 
-  Scenario: Absorb a single file
+  Scenario: Amazon, absorb a single file
     Given I am using Amazon services
     And I have a file
     When I absorb the file
@@ -11,7 +11,7 @@ Feature: Absorb files
     And a record of the package should be made in DynamoDB
     And details of the file upload should be made
 
-  Scenario: Absorb two files
+  Scenario: Amazon, absorb two files
     Given I am using Amazon services
     And I have two files
     When I absorb the files
@@ -19,7 +19,7 @@ Feature: Absorb files
     And a record of the package should be made in DynamoDB
     And details of the file uploads should be made
 
-  Scenario: Absorb two files of different depth
+  Scenario: Amazon, absorb two files of different depth
     Given I am using Amazon services
     And I have two files of different depth
     When I absorb the files
