@@ -70,6 +70,8 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
     files.each do |file|
       @files.include?(file.name).must_equal true
+      the_file = @files.select { |x| x == file.name }.first
+      file.md5.must_equal md5_of_file the_file
     end
   end
 
@@ -101,6 +103,11 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
   def test_file file
     "temp/#{file}"
+  end
+
+  def md5_of_file file
+    content = File.read(test_file(file))
+    Digest::MD5.hexdigest(content)
   end
 
   def test_directory directory

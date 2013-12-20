@@ -17,7 +17,9 @@ module Absorb
     end
 
     def create_the_file
-      Absorb::File.create(uuid: package.uuid, name: relative_file)
+      Absorb::File.create(uuid: package.uuid, 
+                          name: relative_file,
+                          md5:  Digest::MD5.hexdigest(::File.read(file)))
     end
 
     def get_the_relative_file_from file
