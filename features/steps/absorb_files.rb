@@ -56,14 +56,14 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     Absorb::Package.where(uuid: @guid).all.count.must_equal 1
   end
 
-  step 'details of the file upload should be made' do
+  step 'details of the file upload should be made in DynamoDB' do
     files = Absorb::File.where(uuid: @guid).all
 
     files.count.must_equal 1
     files.first.name.must_equal @file
   end
 
-  step 'details of the file uploads should be made' do
+  step 'details of the file uploads should be made in DynamoDB' do
     files = Absorb::File.where(uuid: @guid).all
 
     files.count.must_equal @files.count
