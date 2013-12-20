@@ -26,3 +26,11 @@ Feature: Absorb files
     Then the files should be uploaded to S3 in a unique folder
     And a record of the package should be made in DynamoDB
     And details of the file uploads should be made in DynamoDB
+
+  Scenario: Amazon, absorb a single file
+    Given I am using local storage
+    And I have a file
+    When I absorb the file
+    Then the file should be copied to a unique folder in local storage
+    And a record of the package should be made in a JSON file matching the unique folder name
+    And details of the file upload should be made in a JSON file matching the unique folder name
