@@ -19,7 +19,11 @@ module Absorb
     def create_the_file
       Absorb::File.create(uuid: package.uuid, 
                           name: relative_file,
-                          md5:  Digest::MD5.hexdigest(::File.read(file)))
+                          md5:  md5_hash_of_file)
+    end
+
+    def md5_hash_of_file
+      Digest::MD5.hexdigest(::File.read(file))
     end
 
     def get_the_relative_file_from file
