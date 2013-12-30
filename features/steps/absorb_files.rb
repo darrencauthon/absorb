@@ -119,7 +119,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     end
   end
 
-  def create_a_file file, content = 'x'
+  def create_a_file file, content = UUID.new.generate
     directories_of(file).each do |dir|
       begin
         Dir.mkdir dir
