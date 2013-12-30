@@ -95,6 +95,10 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     storage_ids.count.must_equal 1
     storage_ids.first.must_equal files.first.storage_id
     storage_ids.to_s.wont_equal ''
+
+    first_file, second_file = files[0], files[1]
+    bucket.objects["abc/#{first_file.name}"].exists?.must_equal true
+    bucket.objects["def/#{first_file.name}"].exists?.must_equal false
   end
 
   def directories_of file

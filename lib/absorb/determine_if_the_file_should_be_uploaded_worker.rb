@@ -17,6 +17,7 @@ module Absorb
     def the_appropriate_file_storage_id_for file
       similar_files = find_similar_files_to file
       if similar_files.count > 0
+        eject
         similar_files.first.storage_id
       else
         file.uuid
