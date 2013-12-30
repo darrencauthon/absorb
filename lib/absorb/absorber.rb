@@ -41,11 +41,11 @@ module Absorb
 
     def things_to_do
       @things_to_do ||= { 
-                          create_a_package:          CreateAPackageWorker,
-                          add_a_file_to_the_package: AddAFileToThePackageWorker,
-                          upload_file_to_s3_if_necessary: UploadFileToS3Worker,
-                          determine_this_files_status_in_the_system: DetermineIfTheFileShouldBeUploadedWorker,
-                          record_the_file_in_dynamo: RecordTheFileInDynamoWorker
+                          create_a_package:          CreateAPackage,
+                          add_a_file_to_the_package: AddAFileToThePackage,
+                          upload_file_to_s3_if_necessary: UploadFileToS3,
+                          determine_this_files_status_in_the_system: DetermineIfTheFileShouldBeUploaded,
+                          record_the_file_in_dynamo: RecordTheFileInDynamo
                         }
     end
 

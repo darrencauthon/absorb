@@ -1,6 +1,6 @@
 module Absorb
 
-  class AddAFileToThePackageWorker < Seam::Worker
+  class AddAFileToThePackage < Seam::Worker
 
     def initialize
       handles :add_a_file_to_the_package

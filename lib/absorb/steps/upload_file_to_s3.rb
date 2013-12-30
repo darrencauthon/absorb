@@ -1,6 +1,6 @@
 module Absorb
 
-  class UploadFileToS3Worker < Seam::Worker
+  class UploadFileToS3 < Seam::Worker
 
     def initialize
       handles :upload_file_to_s3_if_necessary

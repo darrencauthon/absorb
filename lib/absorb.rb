@@ -3,6 +3,7 @@ require 'dynamoid'
 require 'uuid'
 require 'seam'
 Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/absorb/steps/*.rb'].each {|file| require file }
 
 module Absorb
 
