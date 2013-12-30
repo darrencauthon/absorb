@@ -7,8 +7,16 @@ module Absorb
     end
 
     def process
+      return if file_was_uploaded_previously
       s3.store_file file, "#{package_uuid}/#{relative_file}"
     end
+
+    private
+
+    def file_was_uploaded_previously
+      effort.data['file_uploaded_previously']
+    end
+
 
     def s3
       Absorb::AmazonS3.new
