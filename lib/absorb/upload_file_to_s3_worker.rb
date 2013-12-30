@@ -17,7 +17,6 @@ module Absorb
       effort.data['file_uploaded_previously']
     end
 
-
     def s3
       Absorb::AmazonS3.new
     end
