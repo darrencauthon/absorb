@@ -1,6 +1,6 @@
 module Absorb
 
-  class DetermineIfTheFileShouldBeUploaded < Seam::Worker
+  class DetermineThisFilesStatusInTheSystem < Seam::Worker
 
     def initialize
       handles :determine_this_files_status_in_the_system
