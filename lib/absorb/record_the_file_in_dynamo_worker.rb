@@ -17,9 +17,12 @@ module Absorb
     end
 
     def create_the_file
-      Absorb::File.create(uuid: package.uuid, 
-                          name: relative_file,
-                          md5:  md5_hash_of_file)
+      effort.data['md5'] = md5_hash_of_file
+      file = Absorb::File.create(uuid: package.uuid, 
+                                 name: relative_file,
+                                 storage_id: package.uuid,
+                                 md5:  effort.data['md5'])
+      effort.data['the_file_id'] = file.id
     end
 
     def md5_hash_of_file

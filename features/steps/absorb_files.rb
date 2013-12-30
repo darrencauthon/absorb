@@ -38,6 +38,14 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     Absorb.files [test_file(@file)]
   end
 
+  step 'I absorb the file again' do
+
+    @guid = 'def'
+    Absorb::Guid.stubs(:generate).returns 'def'
+
+    Absorb.files [test_file(@file)]
+  end
+
   step 'I absorb the files' do
     Absorb.files(@files.map  { |f| test_file(f) } )
   end
@@ -72,7 +80,21 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
       @files.include?(file.name).must_equal true
       the_file = @files.select { |x| x == file.name }.first
       file.md5.must_equal md5_of_file the_file
+      file.storage_id.must_equal file.uuid
     end
+  end
+
+  step 'the file should be saved twice but uploaded to s3 once' do
+    files    = Absorb::File.all.to_a
+    packages = Absorb::Package.all.to_a
+
+    files.count.must_equal 2
+    packages.count.must_equal 2
+
+    storage_ids = files.group_by { |x| x.storage_id }.map { |x| x[0] }
+    storage_ids.count.must_equal 1
+    storage_ids.first.must_equal files.first.storage_id
+    storage_ids.to_s.wont_equal ''
   end
 
   def directories_of file

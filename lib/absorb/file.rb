@@ -9,6 +9,8 @@ module Absorb
     field :name
     field :md5
 
+    field :storage_id
+
   end
 
 end

@@ -12,7 +12,8 @@ module Absorb
     def self.file_flow
       flow = Seam::Flow.new
       flow.record_the_file_in_dynamo
-      flow.upload_file_to_s3
+      flow.determine_this_files_status_in_the_system
+      flow.upload_file_to_s3_if_necessary
       flow
     end
 
@@ -42,7 +43,8 @@ module Absorb
       @things_to_do ||= { 
                           create_a_package:          CreateAPackageWorker,
                           add_a_file_to_the_package: AddAFileToThePackageWorker,
-                          upload_file_to_s3:         UploadFileToS3Worker,
+                          upload_file_to_s3_if_necessary: UploadFileToS3Worker,
+                          determine_this_files_status_in_the_system: DetermineIfTheFileShouldBeUploadedWorker,
                           record_the_file_in_dynamo: RecordTheFileInDynamoWorker
                         }
     end
