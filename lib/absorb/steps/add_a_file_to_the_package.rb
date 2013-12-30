@@ -1,6 +1,6 @@
 module Absorb
 
-  class AddAFileToThePackage < ::Absorb::Worker
+  class AddAFileToThePackage < Worker
 
     def initialize
       handles :add_a_file_to_the_package

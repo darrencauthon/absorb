@@ -1,6 +1,6 @@
 module Absorb
 
-  class UploadFileToS3IfNecessary < ::Absorb::Worker
+  class UploadFileToS3IfNecessary < Worker
 
     def initialize
       handles :upload_file_to_s3_if_necessary

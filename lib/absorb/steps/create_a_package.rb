@@ -1,6 +1,6 @@
 module Absorb
 
-  class CreateAPackage < ::Absorb::Worker
+  class CreateAPackage < Worker
 
     def initialize
       handles :create_a_package
