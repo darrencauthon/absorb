@@ -51,12 +51,18 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'the file should be uploaded to S3 in a unique folder' do
-    bucket.objects["#{@guid}/#{@file}"].nil?.must_equal false
+    unless bucket.objects["#{@guid}/#{@file}"].exists?
+      pending "#{@guid}/#{@file}"
+    end
+    bucket.objects["#{@guid}/#{@file}"].exists?.must_equal true
   end
 
   step 'the files should be uploaded to S3 in a unique folder' do
     @files.each do |file|
-      bucket.objects["#{@guid}/#{file}"].nil?.must_equal false
+      unless bucket.objects["#{@guid}/#{file}"].exists?
+        pending ["#{@guid}/#{file}", bucket.objects["#{@guid}/#{file}"].exists?].inspect
+      end
+      bucket.objects["#{@guid}/#{file}"].exists?.must_equal true
     end
   end
 
