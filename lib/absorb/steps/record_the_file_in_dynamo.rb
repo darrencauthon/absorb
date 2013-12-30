@@ -1,6 +1,6 @@
 module Absorb
 
-  class RecordTheFileInDynamo < Seam::Worker
+  class RecordTheFileInDynamo < ::Absorb::Worker
 
     def initialize
       handles :record_the_file_in_dynamo

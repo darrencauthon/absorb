@@ -1,6 +1,6 @@
 module Absorb
 
-  class DetermineThisFilesStatusInTheSystem < Seam::Worker
+  class DetermineThisFilesStatusInTheSystem < ::Absorb::Worker
 
     def initialize
       handles :determine_this_files_status_in_the_system
