@@ -50,6 +50,17 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     Absorb.files(@files.map  { |f| test_file(f) } )
   end
 
+  step 'I restore the file to a directory' do
+    package_id = Absorb::Package.all.first.id
+    @test_location = 'temp/first_restore'
+    Absorb.restore package_id, @test_location
+  end
+
+  step 'the file should be restored to the directory' do
+    file = "#{@temp_location}/#{Absorb::File.all.first.name}"
+    File.exists?(file).must_equal true
+  end
+
   step 'the file should be uploaded to S3 in a unique folder' do
     unless bucket.objects["#{@guid}/#{@file}"].exists?
       pending "#{@guid}/#{@file}"

@@ -21,4 +21,7 @@ module Absorb
     Absorb::Absorber.new.absorb files
   end
 
+  def self.restore package_id, directory
+  end
+
 end
