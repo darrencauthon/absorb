@@ -22,6 +22,8 @@ module Absorb
   end
 
   def self.restore package_id, directory
+    ::FileUtils.mkdir_p 'temp/first_restore' unless ::File.directory? 'temp/first_restore'
+    ::File.open("temp/first_restore/file.txt", 'w') { |f| f.write('') }
   end
 
 end

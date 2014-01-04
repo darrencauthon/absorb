@@ -57,7 +57,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'the file should be restored to the directory' do
-    file = "#{@temp_location}/#{Absorb::File.all.first.name}"
+    file = "#{@test_location}/#{Absorb::File.all.first.name}"
     File.exists?(file).must_equal true
   end
 
