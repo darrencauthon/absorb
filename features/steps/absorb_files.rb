@@ -9,6 +9,11 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     @guid = 'abc'
     Absorb::Guid.stubs(:generate).returns 'abc'
 
+    cleanup_temp_files
+  end
+
+  after do
+    cleanup_temp_files
   end
 
   step 'I am using Amazon services' do
@@ -159,5 +164,14 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
 
   def bucket_name
     ENV['BUCKET_NAME']
+  end
+
+  def cleanup_temp_files
+    FileUtils.rm_rf 'temp/cat'
+    FileUtils.rm_rf 'temp/dog'
+    FileUtils.rm_rf 'temp/first_restore'
+    ['', '2', '2222', '3', '4'].each do |suffix|
+      FileUtils.rm_rf "temp/file#{suffix}.txt"
+    end
   end
 end
