@@ -19,24 +19,14 @@ module Absorb
     end
 
     def retrieve_file file, local_location
-      
-        #.write("~/desktop/test.txt")
-      
-      large_object = s3.buckets[bucket_name]
-                      .objects[file].read
-                    
-      ::File.open(local_location, 'wb') do |file|
-        file.write large_object
-      end
+      bucket = s3.buckets[bucket_name]
+      object = bucket.objects[file]
 
-      #::File.open(local_location, 'wb') do |file|
-        #large_object = s3.buckets[bucket_name]
-                        #.objects[file]
-        #large_object.read do |chunk|
-          #raise 'k'
-          #file.write(chunk)
-        #end
-      #end
+      file = ::File.open(local_location, 'wb') 
+      large_object = object.read do |chunk|
+        file.write chunk
+      end
+      file.close
     end
 
     def bucket_name
