@@ -18,14 +18,12 @@ module Absorb
         .write(Pathname.new(file))
     end
 
-    def retrieve_file file, local_location
+    def retrieve_file key, local_location
       bucket = s3.buckets[bucket_name]
-      object = bucket.objects[file]
+      object = bucket.objects[key]
 
       file = ::File.open(local_location, 'wb') 
-      large_object = object.read do |chunk|
-        file.write chunk
-      end
+      object.read { |c| file.write c }
       file.close
     end
 
