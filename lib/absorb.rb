@@ -28,10 +28,9 @@ module Absorb
     files = Absorb::File.where(uuid: package.uuid).to_a
     amazon_s3 = Absorb::AmazonS3.new
     files.each do |file|
-      new_directory = "#{directory}/#{file.name}"
-      new_directory = new_directory.split('/')
-      new_directory = new_directory[0...new_directory.count-1]
-      new_directory = new_directory.join('/')
+      segments = "#{directory}/#{file.name}".split('/')
+      segments = segments[0...segments.count-1]
+      new_directory = segments.join('/')
       ::FileUtils.mkdir_p new_directory unless ::File.directory? new_directory
       amazon_s3.retrieve_file("#{file.storage_id}/#{file.name}", "#{directory}/#{file.name}")
     end
