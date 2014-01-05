@@ -26,9 +26,9 @@ module Absorb
     absorb_file = Absorb::File.all.first
     package = Absorb::Package.find(package_id)
     files = Absorb::File.where(uuid: package.uuid).to_a
-    Amazon.startup
+    amazon_s3 = Absorb::AmazonS3.new
     files.each do |file|
-      Absorb::AmazonS3.new.retrieve_file("#{file.storage_id}/#{file.name}", "temp/first_restore/#{file.name}")
+      amazon_s3.retrieve_file("#{file.storage_id}/#{file.name}", "temp/first_restore/#{file.name}")
     end
   end
 
