@@ -19,9 +19,7 @@ module Absorb
     end
 
     def retrieve_file key, local_location
-      bucket = s3.buckets[bucket_name]
-      object = bucket.objects[key]
-
+      object = s3.buckets[bucket_name].objects[key]
       file = ::File.open(local_location, 'wb') 
       object.read { |c| file.write c }
       file.close
