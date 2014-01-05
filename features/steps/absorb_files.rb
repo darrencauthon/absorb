@@ -61,11 +61,25 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     Absorb.restore package_id, @test_location
   end
 
+  step 'I restore the files to a directory' do
+    package_id = Absorb::Package.all.first.id
+    @test_location = 'temp/second_restore'
+    Absorb.restore package_id, @test_location
+  end
+
   step 'the file should be restored to the directory' do
     absorb_file = Absorb::File.all.first
     file = "#{@test_location}/#{absorb_file.name}"
     File.exists?(file).must_equal true
     md5_of(file).must_equal absorb_file.md5
+  end
+
+  step 'the files should be restored to the directory' do
+    Absorb::File.all.each do |absorb_file|
+      file = "#{@test_location}/#{absorb_file.name}"
+      File.exists?(file).must_equal true
+      md5_of(file).must_equal absorb_file.md5
+    end
   end
 
   step 'the file should be uploaded to S3 in a unique folder' do
@@ -177,6 +191,7 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
     FileUtils.rm_rf 'temp/cat'
     FileUtils.rm_rf 'temp/dog'
     FileUtils.rm_rf 'temp/first_restore'
+    FileUtils.rm_rf 'temp/second_restore'
     ['', '2', '2222', '3', '4'].each do |suffix|
       FileUtils.rm_rf "temp/file#{suffix}.txt"
     end

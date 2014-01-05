@@ -22,13 +22,18 @@ module Absorb
   end
 
   def self.restore package_id, directory
-    ::FileUtils.mkdir_p 'temp/first_restore' unless ::File.directory? 'temp/first_restore'
+    ::FileUtils.mkdir_p directory unless ::File.directory? directory
     absorb_file = Absorb::File.all.first
     package = Absorb::Package.find(package_id)
     files = Absorb::File.where(uuid: package.uuid).to_a
     amazon_s3 = Absorb::AmazonS3.new
     files.each do |file|
-      amazon_s3.retrieve_file("#{file.storage_id}/#{file.name}", "temp/first_restore/#{file.name}")
+      new_directory = "#{directory}/#{file.name}"
+      new_directory = new_directory.split('/')
+      new_directory = new_directory[0...new_directory.count-1]
+      new_directory = new_directory.join('/')
+      ::FileUtils.mkdir_p new_directory unless ::File.directory? new_directory
+      amazon_s3.retrieve_file("#{file.storage_id}/#{file.name}", "#{directory}/#{file.name}")
     end
   end
 

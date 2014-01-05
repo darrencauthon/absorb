@@ -40,3 +40,10 @@ Scenario: Amazon, absorb a single file
     When I absorb the file
     And I restore the file to a directory
     Then the file should be restored to the directory
+
+  Scenario: Amazon, absorb two files of different depth and restore
+    Given I am using Amazon services
+    And I have two files of different depth
+    When I absorb the files
+    And I restore the files to a directory
+    Then the files should be restored to the directory
