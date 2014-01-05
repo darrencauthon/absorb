@@ -24,8 +24,12 @@ module Absorb
   def self.restore package_id, directory
     ::FileUtils.mkdir_p 'temp/first_restore' unless ::File.directory? 'temp/first_restore'
     absorb_file = Absorb::File.all.first
+    package = Absorb::Package.find(package_id)
+    files = Absorb::File.where(uuid: package.uuid).to_a
     Amazon.startup
-    Absorb::AmazonS3.new.retrieve_file("#{absorb_file.storage_id}/#{absorb_file.name}", "temp/first_restore/#{absorb_file.name}")
+    files.each do |file|
+      Absorb::AmazonS3.new.retrieve_file("#{file.storage_id}/#{file.name}", "temp/first_restore/#{file.name}")
+    end
   end
 
 end
