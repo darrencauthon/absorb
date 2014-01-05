@@ -18,6 +18,27 @@ module Absorb
         .write(Pathname.new(file))
     end
 
+    def retrieve_file file, local_location
+      
+        #.write("~/desktop/test.txt")
+      
+      large_object = s3.buckets[bucket_name]
+                      .objects[file].read
+                    
+      ::File.open(local_location, 'wb') do |file|
+        file.write large_object
+      end
+
+      #::File.open(local_location, 'wb') do |file|
+        #large_object = s3.buckets[bucket_name]
+                        #.objects[file]
+        #large_object.read do |chunk|
+          #raise 'k'
+          #file.write(chunk)
+        #end
+      #end
+    end
+
     def bucket_name
       Absorb.settings[:bucket_name]
     end

@@ -62,8 +62,10 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   step 'the file should be restored to the directory' do
-    file = "#{@test_location}/#{Absorb::File.all.first.name}"
+    absorb_file = Absorb::File.all.first
+    file = "#{@test_location}/#{absorb_file.name}"
     File.exists?(file).must_equal true
+    md5_of(file).must_equal absorb_file.md5
   end
 
   step 'the file should be uploaded to S3 in a unique folder' do
@@ -154,7 +156,12 @@ class Spinach::Features::AbsorbFiles < Spinach::FeatureSteps
   end
 
   def md5_of_file file
-    content = File.read(test_file(file))
+    file = test_file(file)
+    md5_of file
+  end
+
+  def md5_of file
+    content = File.read(file)
     Digest::MD5.hexdigest(content)
   end
 
