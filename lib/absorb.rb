@@ -2,9 +2,9 @@ require 'aws/s3'
 require 'dynamoid'
 require 'uuid'
 require 'seam'
-Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each {|file| require file }
-Dir[File.dirname(__FILE__) + '/absorb/steps/*.rb'].each {|file| require file }
-Dir[File.dirname(__FILE__) + '/cli/*.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each { |f| require f }
+Dir[File.dirname(__FILE__) + '/absorb/steps/*.rb'].each { |f| require f }
+Dir[File.dirname(__FILE__) + '/cli/*.rb'].each { |f| require f }
 
 module Absorb
 
