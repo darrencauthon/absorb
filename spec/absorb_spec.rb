@@ -8,20 +8,21 @@ describe Absorb do
     let(:absorber) { Object.new }
 
     before do
-      Amazon.expects(:startup)
+      Amazon.stubs(:startup)
 
       Absorb::Absorber.stubs(:new).returns absorber
-      absorber.expects(:absorb).with files
+      absorber.stubs(:absorb).with files
 
-      Absorb.files files
     end
 
     it "should start up Amazon" do
-      # expectation set above
+      Amazon.expects(:startup)
+      Absorb.files files
     end
 
     it "should create an absorber and pass along the files" do
-      # expectation set above
+      absorber.expects(:absorb).with files
+      Absorb.files files
     end
 
   end
