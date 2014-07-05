@@ -1,0 +1,2 @@
+defmodule Absorb do
+end
