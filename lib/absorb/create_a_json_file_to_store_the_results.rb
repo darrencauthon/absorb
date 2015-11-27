@@ -10,7 +10,16 @@ module Absorb
 
     def execute _
       new_file = "#{store[:storage_location]}.json"
-      data = { files: store[:files_to_absorb] }
+      data = {
+               files: store[:files_to_absorb]
+                        .map do |f|
+                               {
+                                 original_file: f[:file],
+                                 md5:           f[:md5],
+                                 size:          f[:size],
+                               }
+                             end
+             }
       File.write new_file, data.to_json
     end
 
