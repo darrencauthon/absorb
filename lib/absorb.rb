@@ -9,7 +9,7 @@ module Absorb
       .map  { |f| "Plan to absorb #{f} if it has not been absorbed" }
       .each { |c| commands << c }
 
-    storage_folder = "/Users/darrencauthon/Desktop/absorb/blah/#{SecureRandom.uuid}"
+    storage_folder = "/Users/darrencauthon/darren/absorb/blah/#{SecureRandom.uuid}"
 
     commands << "Create a new directory at #{storage_folder}"
 
