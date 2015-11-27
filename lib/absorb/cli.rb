@@ -16,6 +16,10 @@ module Absorb
         Dir[ File.join(dir, '**', '*') ].reject { |p| File.directory? p }
       end 
 
+      def path_to_absorb_from argv
+        argv[0]
+      end
+
       def execution_plan_from argv
         files = requested_files_from argv
         home  = home_folder_from argv
@@ -24,18 +28,20 @@ module Absorb
       end
 
       def requested_files_from argv
-        if File.exist?(argv[0]) && File.directory?(argv[0]) == false
-          [File.expand_path(File.dirname(argv[0]) + '/' + argv[0])]
+        path = path_to_absorb_from argv
+        if File.exist?(path) && File.directory?(path) == false
+          [File.expand_path(File.dirname(path) + '/' + path)]
         else
-          all_files_in(argv[0]).map { |x| File.expand_path(File.dirname(x) + '/' + x.split('/')[-1]) }
+          all_files_in(path).map { |x| File.expand_path(File.dirname(x) + '/' + x.split('/')[-1]) }
         end
       end
 
       def home_folder_from argv
-        if File.exist?(argv[0]) && File.directory?(argv[0]) == false
-          File.expand_path(File.dirname(argv[0]))
+        path = path_to_absorb_from argv
+        if File.exist?(path) && File.directory?(path) == false
+          File.expand_path(File.dirname(path))
         else
-          File.expand_path(argv[0])
+          File.expand_path(path)
         end
       end
 
