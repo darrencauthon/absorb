@@ -24,7 +24,13 @@ module Absorb
         files = requested_files_from argv
         home  = home_folder_from argv
 
-        Absorb.checking_script_for( { home: home, files: files, storage_folder: storage_folder } )
+        options = {
+                    home:           home,
+                    files:          files,
+                    storage_folder: storage_folder
+                  }
+
+        Absorb.checking_script_for options
       end
 
       def storage_folder
