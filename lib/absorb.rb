@@ -9,12 +9,10 @@ module Absorb
       .map  { |f| "Plan to absorb #{f} if it has not been absorbed" }
       .each { |c| commands << c }
 
-    storage_folder = options[:storage_folder]
-
-    commands << "Create a new directory at #{storage_folder}"
+    commands << "Create a new directory at #{options[:storage_folder]}"
 
     options[:files]
-      .map  { |f| "Copy #{f} to #{storage_folder}#{f.sub(options[:home], '')} if the file should be absorbed" }
+      .map  { |f| "Copy #{f} to #{options[:storage_folder]}#{f.sub(options[:home], '')} if the file should be absorbed" }
       .each { |c| commands << c }
 
     commands.join("\n")
