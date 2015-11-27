@@ -15,6 +15,7 @@ module Absorb
                         .map do |f|
                                {
                                  original_file: f[:file],
+                                 file:          f[:file].sub(store[:home], ''),
                                  md5:           f[:md5],
                                  size:          f[:size],
                                }

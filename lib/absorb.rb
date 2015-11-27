@@ -6,6 +6,7 @@ module Absorb
 
   def self.checking_script_for options
     [
+      set_the_home(options),
       plan_to_absorb_every_file(options),
       create_the_new_storage_folder(options),
       copy_the_files_to_the_storage_folder(options),
@@ -14,6 +15,10 @@ module Absorb
   end
 
   class << self
+
+    def set_the_home options
+      "Set the home to #{options[:home]}"
+    end
 
     def plan_to_absorb_every_file options
       options[:files]
