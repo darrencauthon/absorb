@@ -29,20 +29,18 @@ module Absorb
 
       def requested_files_from argv
         path = path_to_absorb_from argv
-        if File.exist?(path) && File.directory?(path) == false
-          [File.expand_path(File.dirname(path) + '/' + path)]
-        else
-          all_files_in(path).map { |x| File.expand_path(File.dirname(x) + '/' + x.split('/')[-1]) }
-        end
+        single_file?(path) ? [File.expand_path(File.dirname(path) + '/' + path)]
+                           : all_files_in(path).map { |x| File.expand_path(File.dirname(x) + '/' + x.split('/')[-1]) }
       end
 
       def home_folder_from argv
         path = path_to_absorb_from argv
-        if File.exist?(path) && File.directory?(path) == false
-          File.expand_path(File.dirname(path))
-        else
-          File.expand_path(path)
-        end
+        single_file?(path) ? File.expand_path(File.dirname(path))
+                           : File.expand_path(path)
+      end
+
+      def single_file? path
+        File.exist?(path) && File.directory?(path) == false
       end
 
     end
