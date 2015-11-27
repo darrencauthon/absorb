@@ -24,7 +24,11 @@ module Absorb
         files = requested_files_from argv
         home  = home_folder_from argv
 
-        Absorb.checking_script_for( { home: home, files: files } )
+        Absorb.checking_script_for( { home: home, files: files, storage_folder: storage_folder } )
+      end
+
+      def storage_folder
+        "/Users/darrencauthon/darren/absorb/blah/#{SecureRandom.uuid}"
       end
 
       def requested_files_from argv
