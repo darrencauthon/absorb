@@ -29,7 +29,7 @@ module Absorb
 
       def requested_files_from argv
         path = path_to_absorb_from argv
-        single_file?(path) ? [File.expand_path(File.dirname(path) + '/' + path)]
+        single_file?(path) ? [path]
                            : all_files_in(path).map { |x| File.expand_path(File.dirname(x) + '/' + x.split('/')[-1]) }
       end
 
