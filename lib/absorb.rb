@@ -4,14 +4,11 @@ Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each {|file| require file }
 module Absorb
 
   def self.checking_script_for options
-    commands = plan_to_absorb_every_file(options)
-
-    commands << create_the_new_storage_folder(options)
-
-    copy_the_files_to_the_storage_folder(options)
-      .each { |c| commands << c }
-
-    commands.join("\n")
+    [
+      plan_to_absorb_every_file(options),
+      create_the_new_storage_folder(options),
+      copy_the_files_to_the_storage_folder(options),
+    ].flatten.join "\n"
   end
 
   class << self
