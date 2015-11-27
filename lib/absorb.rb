@@ -3,7 +3,7 @@ Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each {|file| require file }
 
 module Absorb
 
-  def self.checking_script_for(options)
+  def self.checking_script_for options
     commands = []
     options[:files]
       .map  { |f| "Plan to absorb #{f} if it has not been absorbed" }
