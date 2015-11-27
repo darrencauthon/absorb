@@ -1,5 +1,5 @@
 require 'onus'
-Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each {|file| require file }
+Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each { |f| require f }
 
 module Absorb
 
