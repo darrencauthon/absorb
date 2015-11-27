@@ -1,13 +1,25 @@
 #!/usr/bin/env ruby
 
-require File.expand_path(File.dirname(__FILE__) + '/../lib/absorb.rb')
+require_relative '../lib/absorb'
 
-arguments = Dir.entries ARGV[0]
-directories = arguments.select { |f| File.directory?(f) }
-                       .select { |x| ['.', '..'].include?(x) == false }
+def all_files_in dir
+  Dir[ File.join(dir, '**', '*') ].reject { |p| File.directory? p }
+end 
 
-files = [arguments.select { |f| File.directory?(f) == false },
-         directories.map { |d| Absorb::FileSystem.files_from d } ].flatten
-p files
+files = if File.exist?(ARGV[0]) && File.directory?(ARGV[0]) == false
+          [File.expand_path(File.dirname(ARGV[0]) + '/' + ARGV[0])]
+        else
+          all_files_in(ARGV[0]).map { |x| File.expand_path(File.dirname(x) + '/' + x.split('/')[-1]) }
+        end
 
-#Absorb.files files
+home = if File.exist?(ARGV[0]) && File.directory?(ARGV[0]) == false
+         File.expand_path(File.dirname(ARGV[0]))
+       else
+         File.expand_path(ARGV[0])
+       end
+
+plan = Absorb.checking_script_for( { home: home, files: files } )
+workflow = Onus::Workflow.new plan
+
+workflow.execute
+#puts Onus::Step.step_types.inspect

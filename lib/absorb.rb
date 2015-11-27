@@ -1,24 +1,23 @@
-require 'aws/s3'
-require 'dynamoid'
-require 'uuid'
-require 'seam'
+require 'onus'
 Dir[File.dirname(__FILE__) + '/absorb/*.rb'].each {|file| require file }
-Dir[File.dirname(__FILE__) + '/absorb/steps/*.rb'].each {|file| require file }
 
 module Absorb
 
-  def self.settings
-    {
-      bucket_name:          ENV['BUCKET_NAME'],
-      access_key_id:        ENV['ACCESS_KEY_ID'],
-      secret_access_key:    ENV['SECRET_ACCESS_KEY'],
-      dynamodb_upload:      ENV['DYNAMODB_UPLOAD']
-    }
-  end
+  def self.checking_script_for(options)
+    commands = []
+    options[:files]
+      .map  { |f| "Plan to absorb #{f} if it has not been absorbed" }
+      .each { |c| commands << c }
 
-  def self.files files
-    Amazon.startup
-    Absorb::Absorber.new.absorb files
+    storage_folder = "/Users/darrencauthon/Desktop/absorb/blah/#{SecureRandom.uuid}"
+
+    commands << "Create a new directory at #{storage_folder}"
+
+    options[:files]
+      .map  { |f| "Copy #{f} to #{storage_folder}#{f.sub(options[:home], '')} if the file should be absorbed" }
+      .each { |c| commands << c }
+
+    commands.join("\n")
   end
 
 end
