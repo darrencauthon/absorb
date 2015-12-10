@@ -10,7 +10,15 @@ module Absorb
 
     def execute input
       store[:files_to_absorb] ||= []
+      return if file_has_been_absorbed
       store[:files_to_absorb] << file_to_absorb
+    end
+
+    def file_has_been_absorbed
+      location = "#{store[:absorb_folder]}/*.json"
+      puts location
+      puts Dir[location].inspect
+      true
     end
 
     def file_to_absorb
